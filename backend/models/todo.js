@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let Todo = new Schema({
+const todoSchema = new Schema({
     title: {
         type: String
     },
@@ -17,4 +17,5 @@ let Todo = new Schema({
     }
 });
 
-module.exports = mongoose.model('Todo', Todo);
+// Xuất mô hình Todo
+module.exports = mongoose.model('Todo', todoSchema);

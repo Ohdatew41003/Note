@@ -1,11 +1,12 @@
-FROM node:10-alpine
+FROM node:14-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
+# Cài đặt các phụ thuộc của ứng dụng
 COPY package*.json ./
-
 RUN npm install
 
+# Sao chép mã nguồn vào container
 COPY . .
 
 EXPOSE 3001

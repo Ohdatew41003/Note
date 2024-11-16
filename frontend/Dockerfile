@@ -2,15 +2,13 @@ FROM node:14-alpine
 
 WORKDIR /app
 
-# add '/app/node_modules/.bin' to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-# install application dependencies
+# Cài đặt các phụ thuộc của ứng dụng
 COPY package*.json ./
 RUN npm install
-# RUN npm install react-scripts -g
 
-# copy app files
+# Sao chép mã nguồn vào container
 COPY . .
 
 EXPOSE 3000
+
 CMD ["npm", "start"]

@@ -8,31 +8,49 @@ services:
       - "3000:3000"
     networks:
       - network-backend
+
   api:
     build: ./backend
     depends_on:
       - mongo
+      - redis
     ports:
       - "3001:3001"
-    networks: 
-     - network-backend
-  
+    networks:
+      - network-backend
+
   mongo:
     image: mongo
     restart: always
-    volumes: 
+    volumes:
       - mongodb_data:/data/db
-    environment: 
+    environment:
       MONGODB_INITDB_ROOT_USERNAME: username
       MONGODB_INITDB_ROOT_PASSWORD: password
-    # uncomment following lines to access db locally
-    # ports:
-    #   - 27017:27017
-    networks: 
-     - network-backend
+    networks:
+      - network-backend
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - network-backend
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - api
+      - web
+    ports:
+      - "80:80"
+    networks:
+      - network-backend
 
 networks:
   network-backend:
 
-volumes: 
+
+volumes:
   mongodb_data:

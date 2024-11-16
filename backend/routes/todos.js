@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
-
 const Todo = require("../models/todo");
+const redisClient = require("redis").createClient({ host: 'redis', port: 6379 });
 
 // GET all todos
 router.get("/", async (req, res) => {
   const todos = await Todo.find({ is_complete: false });
+
+  // Lưu trữ vào Redis số lượng todos
+  redisClient.set('todo_count', todos.length);
   res.send(todos);
 });
 
